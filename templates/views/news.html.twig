@@ -1,0 +1,44 @@
+{% extends "layout.html.twig" %}
+
+{% block content %}
+    <div class="container">
+        <dl class="row">
+            {% for story in stories %}
+                <dt>
+                    <dt class="col-sm-2">
+                        {% if story.status == "fresh" %}
+                            {{ story.id }}
+                        {% else %}
+                            {{ story.id }}
+                        {% endif %}
+                    </dt>
+                    <dt class="col-sm-7">
+                        {% if story.url is defined %}
+                            <a href="{{ story.url }}" target="_blank"><h6>{{ story.title }}</h6></a>
+                        {% else %}
+                            <h6>{{ story.title }}</h6>
+                        {% endif %}
+                    </dt>
+                    <dd class="col-sm-3">
+                        {% if story.url is defined %}
+                            ({{ story.host }})
+                        {% endif %}
+                    </dd>
+                </dt>
+                <dt>
+                    <dt class="col-sm-2">
+                    </dt>
+                    <dd class="col-10">
+                        {{ story.score }} points
+                        by <a href="{{ app.url_generator.generate('user', {user: story.by }) }}">{{ story.by }}</a>
+                        on {{ story.time|date('Y-m-d') }}
+                        {% if story.kids is defined %}
+                            |
+                            <a href="{{ app.url_generator.generate('comments', {itemId: story.id }) }}">{{ story.descendants }} comments</a>
+                        {% endif %}
+                    </dd>
+                </dt>
+            {% endfor %}
+        </dl>
+    </div>
+{% endblock %}

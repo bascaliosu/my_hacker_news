@@ -1,0 +1,66 @@
+{% extends "layout.html.twig" %}
+
+{% block content %}
+    <div class="container">
+        <dl class="row">
+            {% if stories|length == 0 %}
+                No such user
+            {% endif %}
+            {% for story in stories %}
+                {% if story.type == "story" %}
+                    <dt>
+                        <dt class="col-sm-2">
+                            {% if story.status == "fresh" %}
+                                {{ story.id }}
+                            {% else %}
+                                {{ story.id }}
+                            {% endif %}
+                        </dt>
+                        <dt class="col-sm-7">
+                            {% if story.url is defined %}
+                                <a href="{{ story.url }}" target="_blank"><h6>{{ story.title }}</h6></a>
+                            {% else %}
+                                <h6>{{ story.title }}</h6>
+                            {% endif %}
+                        </dt>
+                        <dd class="col-sm-3">
+                            {% if story.url is defined %}
+                                ({{ story.host }})
+                            {% endif %}
+                        </dd>
+                    </dt>
+                    <dt>
+                        <dt class="col-sm-2">
+                        </dt>
+                        <dd class="col-10">
+                            {{ story.score }} points
+                            by <a href="{{ app.url_generator.generate('user', {user: story.by }) }}">{{ story.by }}</a>
+                            on {{ story.time|date('Y-m-d') }}
+                            {% if story.kids is defined %}
+                                |
+                                <a href="{{ app.url_generator.generate('comments', {itemId: story.id }) }}">{{ story.descendants }} comments</a>
+                            {% endif %}
+                        </dd>
+                    </dt>
+                {% elseif story.type == "comment" %}
+                    <dt>
+                        <dt class="col-sm-2">
+                            Comment
+                        </dt>
+                        <dd class="col-sm-10">
+                            <a href="{{ app.url_generator.generate('user', {user: story.by }) }}">{{ story.by }}</a>
+                            on {{ story.time|date('Y-m-d') }}
+                        </dd>
+                    </dt>
+                    <dt>
+                        <dt class="col-sm-2">
+                        </dt>
+                        <dd class="col-sm-10">
+                            {{ story.text|raw }}
+                        </dd>
+                    </dt>
+                {% endif %}
+            {% endfor %}
+        </dl>
+    </div>
+{% endblock %}

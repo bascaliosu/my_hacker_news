@@ -1,0 +1,51 @@
+{% extends "layout.html.twig" %}
+
+{% block content %}
+    <div class="container">
+        <dl class="row">
+            {% if story is null %}
+                No such post
+            {% else %}
+                <dt>
+                    <dt class="col-sm-9">
+                        {% if story.url is defined %}
+                            <a href="{{ story.url }}" target="_blank"><h6>{{ story.title }}</h6></a>
+                        {% else %}
+                            <h6>{{ story.title }}</h6>
+                        {% endif %}
+                    </dt>
+                    <dd class="col-sm-3">
+                        {% if story.url is defined %}
+                            ({{ story.host }})
+                        {% endif %}
+                    </dd>
+                </dt>
+                <dt>
+                    <dd class="col-12">
+                        {{ story.score }} points
+                        by <a href="{{ app.url_generator.generate('user', {user: story.by }) }}">{{ story.by }}</a>
+                        on {{ story.time|date('Y-m-d') }}
+                        {% if story.kids is defined %}
+                            |
+                            <a href="{{ app.url_generator.generate('comments', {itemId: story.id }) }}">{{ story.descendants }} comments</a>
+                        {% endif %}
+                    </dd>
+                </dt>
+                <dt>
+                    {% for comment in comments %}
+                        <dt class="col-sm-12">
+                            <a href="{{ app.url_generator.generate('user', {user: comment.by }) }}">{{ comment.by }}</a>
+                            on {{ comment.time|date('Y-m-d') }}
+                        </dt>
+                        <dd class="col-sm-12">
+                            {{ comment.text|raw }}
+                        </dd>
+                        <dd class="col-sm-12">
+                            <a href="#">Reply</a>
+                        </dd>
+                    {% endfor %}
+                </dt>
+            {% endif %}
+        </dl>
+    </div>
+{% endblock %}

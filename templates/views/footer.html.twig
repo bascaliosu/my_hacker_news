@@ -1,0 +1,16 @@
+{% block footer %}
+<div class="container">
+    <div class="row">
+    {% set newPage = currentPage + 1 %}
+    {% if newPage < 1 %}
+        {% set newPage = 1 %}
+    {% elseif newPage >= totalPages %}
+        {% set newPage = totalPages %}
+    {% endif %}
+
+    {% if newPage < totalPages %}
+        <a href="{{ currentUrl }}?page={{ newPage }}" >More</a>
+    {% endif %}
+    </div>
+</div>
+{% endblock %}
