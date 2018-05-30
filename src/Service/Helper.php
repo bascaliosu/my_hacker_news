@@ -13,7 +13,7 @@ class Helper
 {
     /**
      * Variable used to store all comments from recursive method
-     * 
+     *
      * @var array
      */
     protected $allComments = [];
