@@ -128,7 +128,11 @@ class Helper
         $newStory = json_decode($story, true);
         if (count($newStory)) {
             $newStory['status'] = $status;
-            $newStory['host'] = $this->extractDomain($newStory['url']);
+            if (isset($newStory['url'])) {
+                $newStory['host'] = $this->extractDomain($newStory['url']);
+            } else {
+                $newStory['host'] = "";
+            }
         }
 
         return $newStory;
